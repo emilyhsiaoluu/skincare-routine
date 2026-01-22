@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Skincare Routine</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #fef9f3 0%, #f5e6d3 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #4a3728;
+      margin-bottom: 10px;
+    }
+
+    .profile-badge {
+      display: inline-flex;
+      gap: 15px;
+      background: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .profile-badge span {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .profile-badge strong {
+      color: #4a3728;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
+      padding: 12px 30px;
+      border: none;
+      background: white;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #666;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #e8b4a0 0%, #d4956a 100%);
+      color: white;
+    }
+
+    .routine-container {
+      display: none;
+    }
+
+    .routine-container.active {
+      display: block;
+    }
+
+    .routine-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .routine-header h2 {
+      font-size: 1.8rem;
+      color: #4a3728;
+    }
+
+    .routine-header .frequency {
+      color: #888;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .step-card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    .step-card.finished {
+      opacity: 0.5;
+      background: #f5f5f5;
+    }
+
+    .step-card.finished::after {
+      content: 'FINISHED';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      font-size: 2rem;
+      font-weight: bold;
+      color: rgba(212, 149, 106, 0.3);
+      pointer-events: none;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #e8b4a0 0%, #d4956a 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .product-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 15px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .product-info {
+      flex: 1;
+    }
+
+    .product-brand {
+      color: #d4956a;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .product-name {
+      font-size: 1.2rem;
+      color: #4a3728;
+      margin: 5px 0;
+      font-weight: 600;
+    }
+
+    .product-ingredients {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0;
+    }
+
+    .ingredient-tag {
+      background: #fef3eb;
+      color: #d4956a;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .product-reason {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #eee;
+    }
+
+    .product-reason strong {
+      color: #4a3728;
+    }
+
+    .finish-btn {
+      padding: 10px 20px;
+      border: 2px solid #d4956a;
+      background: transparent;
+      color: #d4956a;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .finish-btn:hover {
+      background: #d4956a;
+      color: white;
+    }
+
+    .finish-btn.finished {
+      background: #888;
+      border-color: #888;
+      color: white;
+    }
+
+    .inventory-section {
+      margin-top: 40px;
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .inventory-section h3 {
+      color: #4a3728;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+    }
+
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .inventory-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #fef9f3;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .inventory-item.finished {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
+
+    .inventory-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .inventory-item-info {
+      flex: 1;
+    }
+
+    .inventory-item-brand {
+      font-size: 0.7rem;
+      color: #d4956a;
+      text-transform: uppercase;
+    }
+
+    .inventory-item-name {
+      font-size: 0.85rem;
+      color: #4a3728;
+      font-weight: 500;
+    }
+
+    .inventory-checkbox {
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      accent-color: #d4956a;
+    }
+
+    .empty-routine {
+      text-align: center;
+      padding: 60px 20px;
+      color: #888;
+    }
+
+    .empty-routine .icon {
+      font-size: 4rem;
+      margin-bottom: 15px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #4a3728;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .step-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .product-ingredients {
+        justify-content: center;
+      }
+
+      .profile-badge {
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>My Skincare Routine</h1>
+      <div class="profile-badge">
+        <span>Age: <strong id="user-age">40</strong></span>
+        <span>Skin: <strong id="user-skin">Combination</strong></span>
+        <span>Focus: <strong id="user-concerns">Anti-Aging</strong></span>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="morning">☀️ Morning</button>
+      <button class="tab-btn" data-tab="evening">🌙 Evening</button>
+      <button class="tab-btn" data-tab="weekly">🎭 Weekly</button>
+      <button class="tab-btn" data-tab="inventory">📦 My Products</button>
+    </div>
+
+    <div id="morning" class="routine-container active">
+      <div class="routine-header">
+        <h2>☀️ Morning Routine</h2>
+      </div>
+      <div class="steps-container" id="morning-steps"></div>
+    </div>
+
+    <div id="evening" class="routine-container">
+      <div class="routine-header">
+        <h2>🌙 Evening Routine</h2>
+      </div>
+      <div class="steps-container" id="evening-steps"></div>
+    </div>
+
+    <div id="weekly" class="routine-container">
+      <div class="routine-header">
+        <h2>🎭 Weekly Treatment</h2>
+        <p class="frequency">Use 1-2 times per week</p>
+      </div>
+      <div class="steps-container" id="weekly-steps"></div>
+    </div>
+
+    <div id="inventory" class="routine-container">
+      <div class="inventory-section">
+        <h3>📦 My Product Inventory</h3>
+        <p style="color: #888; margin-bottom: 20px; font-size: 0.9rem;">
+          Check off products when they're finished. Your routines will update automatically.
+        </p>
+        <div class="inventory-grid" id="inventory-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Product and routine data
+    let appData = {
+      userProfile: {
+        age: 40,
+        skinType: "combination",
+        concerns: ["fine lines", "wrinkles"]
+      },
+      products: [
+        {
+          id: "hada-labo-cleanser",
+          name: "Gokujyun Hyaluronic Acid Foaming Cleanser",
+          brand: "Hada Labo",
+          category: "cleanser",
+          image: "product-images/IMG_2614.jpeg",
+          keyIngredients: ["3 Types of Hyaluronic Acid", "Low pH Formula"],
+          benefit: "Gentle cleansing without stripping; maintains hydration",
+          finished: false
+        },
+        {
+          id: "goodal-vitac",
+          name: "Green Tangerine Vita C Dark Spot Serum",
+          brand: "goodal",
+          category: "serum",
+          image: "product-images/IMG_2612.jpeg",
+          keyIngredients: ["70% Green Tangerine", "Niacinamide 4%", "Arbutin"],
+          benefit: "Antioxidant protection, brightening, collagen support",
+          finished: false
+        },
+        {
+          id: "numbuzin-serum",
+          name: "No.3 Skin Softening Serum",
+          brand: "numbuzin",
+          category: "serum",
+          image: "product-images/IMG_2612.jpeg",
+          keyIngredients: ["Bifida 42%", "Galactomyces 21%", "Niacinamide"],
+          benefit: "Improves skin texture, ferments boost cell turnover",
+          finished: false
+        },
+        {
+          id: "skin1004-centella",
+          name: "Madagascar Centella Ampoule",
+          brand: "SKIN1004",
+          category: "ampoule",
+          image: "product-images/IMG_2612.jpeg",
+          keyIngredients: ["Centella Asiatica 30,000ppm"],
+          benefit: "Soothing, barrier repair, anti-inflammatory",
+          finished: false
+        },
+        {
+          id: "manyo-bifida",
+          name: "Bifida Biome Complex Ampoule",
+          brand: "ma:nyo",
+          category: "ampoule",
+          image: "product-images/IMG_2612.jpeg",
+          keyIngredients: ["Copper Tripeptide-1", "Argireline", "10 Types HA"],
+          benefit: "Anti-wrinkle powerhouse - peptides stimulate collagen",
+          finished: false
+        },
+        {
+          id: "celluxe-peptide",
+          name: "Peptide Repair Concentrate",
+          brand: "Celluxe USA",
+          category: "ampoule",
+          image: "product-images/IMG_2613.jpeg",
+          keyIngredients: ["Peptides", "Botanicals", "Chamomile"],
+          benefit: "Dermis repair, restores skin elasticity",
+          finished: false
+        },
+        {
+          id: "illiyoon-gel",
+          name: "Ceramide Ato Soothing Gel",
+          brand: "ILLIYOON",
+          category: "moisturizer",
+          image: "product-images/IMG_2612.jpeg",
+          keyIngredients: ["Ceramide NP", "Squalane", "Betaine"],
+          benefit: "Barrier repair, locks in actives",
+          finished: false
+        },
+        {
+          id: "abib-mask",
+          name: "Collagen Gel Mask",
+          brand: "Abib",
+          category: "mask",
+          image: "product-images/IMG_2612.jpeg",
+          keyIngredients: ["Vegan Collagen 10,005ppm", "Palmitoyl Tripeptide-5"],
+          benefit: "Intensive hydration and firming boost",
+          finished: false
+        }
+      ],
+      routines: {
+        morning: {
+          steps: [
+            { productId: "hada-labo-cleanser", reason: "Start with clean skin; low pH won't disrupt barrier; HA keeps skin hydrated during cleanse" },
+            { productId: "goodal-vitac", reason: "Vitamin C goes on bare skin for max absorption; antioxidants protect against daytime UV/pollution damage" },
+            { productId: "skin1004-centella", reason: "Lightweight watery texture layers over serum; soothes any Vitamin C sensitivity" },
+            { productId: "illiyoon-gel", reason: "Seal everything in; ceramides strengthen barrier for day; lightweight for combo skin" }
+          ]
+        },
+        evening: {
+          steps: [
+            { productId: "hada-labo-cleanser", reason: "Remove day's buildup; HA prevents tight feeling after cleansing" },
+            { productId: "numbuzin-serum", reason: "Fermented ingredients on clean skin; Bifida/Galactomyces prep skin for next steps" },
+            { productId: "manyo-bifida", reason: "Anti-aging powerhouse - Copper Tripeptide-1 + Argireline work overnight to boost collagen" },
+            { productId: "celluxe-peptide", reason: "Layer peptides for maximum anti-aging; different peptide complex complements ma:nyo" },
+            { productId: "illiyoon-gel", reason: "Occlusive layer seals in all the peptides for overnight repair" }
+          ]
+        },
+        weekly: {
+          steps: [
+            { productId: "abib-mask", reason: "Use after cleansing, before serums. Vegan collagen + peptides give intensive firming boost" }
+          ]
+        }
+      }
+    };
+
+    // Load saved data from localStorage
+    function loadData() {
+      const saved = localStorage.getItem('skincareRoutineData');
+      if (saved) {
+        const savedData = JSON.parse(saved);
+        // Merge finished status
+        savedData.products.forEach(savedProduct => {
+          const product = appData.products.find(p => p.id === savedProduct.id);
+          if (product) {
+            product.finished = savedProduct.finished;
+          }
+        });
+      }
+    }
+
+    // Save data to localStorage
+    function saveData() {
+      localStorage.setItem('skincareRoutineData', JSON.stringify(appData));
+    }
+
+    // Get product by ID
+    function getProduct(id) {
+      return appData.products.find(p => p.id === id);
+    }
+
+    // Render a routine step card
+    function renderStepCard(step, index, routineType) {
+      const product = getProduct(step.productId);
+      if (!product) return '';
+
+      const finishedClass = product.finished ? 'finished' : '';
+      const btnText = product.finished ? 'Restore' : 'Mark Finished';
+      const btnClass = product.finished ? 'finished' : '';
+
+      return `
+        <div class="step-card ${finishedClass}" data-product-id="${product.id}">
+          <div class="step-number">${index + 1}</div>
+          <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/100?text=No+Image'">
+          <div class="product-info">
+            <div class="product-brand">${product.brand}</div>
+            <div class="product-name">${product.name}</div>
+            <div class="product-ingredients">
+              ${product.keyIngredients.map(ing => `<span class="ingredient-tag">${ing}</span>`).join('')}
+            </div>
+            <div class="product-reason"><strong>Why here:</strong> ${step.reason}</div>
+          </div>
+          <button class="finish-btn ${btnClass}" onclick="toggleFinished('${product.id}')">${btnText}</button>
+        </div>
+      `;
+    }
+
+    // Render routine steps
+    function renderRoutine(routineType) {
+      const container = document.getElementById(`${routineType}-steps`);
+      const routine = appData.routines[routineType];
+
+      // Filter out finished products for active routine display
+      const activeSteps = routine.steps.filter(step => {
+        const product = getProduct(step.productId);
+        return product && !product.finished;
+      });
+
+      if (activeSteps.length === 0) {
+        container.innerHTML = `
+          <div class="empty-routine">
+            <div class="icon">🎉</div>
+            <h3>All products in this routine are finished!</h3>
+            <p>Time to restock or check your inventory to restore products.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = activeSteps.map((step, index) =>
+        renderStepCard(step, index, routineType)
+      ).join('');
+    }
+
+    // Render inventory
+    function renderInventory() {
+      const container = document.getElementById('inventory-grid');
+
+      container.innerHTML = appData.products.map(product => `
+        <div class="inventory-item ${product.finished ? 'finished' : ''}">
+          <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/50?text=?'">
+          <div class="inventory-item-info">
+            <div class="inventory-item-brand">${product.brand}</div>
+            <div class="inventory-item-name">${product.name}</div>
+          </div>
+          <input
+            type="checkbox"
+            class="inventory-checkbox"
+            ${product.finished ? 'checked' : ''}
+            onchange="toggleFinished('${product.id}')"
+            title="${product.finished ? 'Uncheck to restore' : 'Check when finished'}"
+          >
+        </div>
+      `).join('');
+    }
+
+    // Toggle product finished status
+    function toggleFinished(productId) {
+      const product = getProduct(productId);
+      if (product) {
+        product.finished = !product.finished;
+        saveData();
+        renderAll();
+        showToast(product.finished
+          ? `${product.brand} ${product.name} marked as finished`
+          : `${product.brand} ${product.name} restored to routine`
+        );
+      }
+    }
+
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Render all views
+    function renderAll() {
+      renderRoutine('morning');
+      renderRoutine('evening');
+      renderRoutine('weekly');
+      renderInventory();
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active tab button
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Update active container
+        document.querySelectorAll('.routine-container').forEach(c => c.classList.remove('active'));
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Initialize app
+    loadData();
+    renderAll();
+  </script>
+</body>
+</html>

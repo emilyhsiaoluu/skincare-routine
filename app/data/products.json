@@ -1,0 +1,160 @@
+{
+  "userProfile": {
+    "age": 40,
+    "skinType": "combination",
+    "concerns": ["fine lines", "wrinkles"]
+  },
+  "products": [
+    {
+      "id": "hada-labo-cleanser",
+      "name": "Gokujyun Hyaluronic Acid Foaming Cleanser",
+      "brand": "Hada Labo",
+      "category": "cleanser",
+      "image": "../product-images/IMG_2614.jpeg",
+      "keyIngredients": ["3 Types of Hyaluronic Acid", "TEA-Cocoyl Alaninate"],
+      "benefit": "Gentle cleansing without stripping; maintains hydration",
+      "finished": false
+    },
+    {
+      "id": "goodal-vitac",
+      "name": "Green Tangerine Vita C Dark Spot Serum",
+      "brand": "goodal",
+      "category": "serum",
+      "image": "../product-images/IMG_2612.jpeg",
+      "keyIngredients": ["70% Green Tangerine Extract", "Niacinamide 4%", "Arbutin"],
+      "benefit": "Antioxidant protection, brightening, collagen support",
+      "finished": false
+    },
+    {
+      "id": "numbuzin-serum",
+      "name": "No.3 Skin Softening Serum",
+      "brand": "numbuzin",
+      "category": "serum",
+      "image": "../product-images/IMG_2612.jpeg",
+      "keyIngredients": ["Bifida Ferment Lysate 42%", "Galactomyces 21%", "Niacinamide"],
+      "benefit": "Improves skin texture, ferments boost cell turnover",
+      "finished": false
+    },
+    {
+      "id": "skin1004-centella",
+      "name": "Madagascar Centella Ampoule",
+      "brand": "SKIN1004",
+      "category": "ampoule",
+      "image": "../product-images/IMG_2612.jpeg",
+      "keyIngredients": ["Centella Asiatica Extract 30,000ppm"],
+      "benefit": "Soothing, barrier repair, anti-inflammatory",
+      "finished": false
+    },
+    {
+      "id": "manyo-bifida",
+      "name": "Bifida Biome Complex Ampoule",
+      "brand": "ma:nyo",
+      "category": "ampoule",
+      "image": "../product-images/IMG_2612.jpeg",
+      "keyIngredients": ["Copper Tripeptide-1", "Argireline", "10 Types of HA"],
+      "benefit": "Anti-wrinkle powerhouse - peptides stimulate collagen",
+      "finished": false
+    },
+    {
+      "id": "celluxe-peptide",
+      "name": "Peptide Repair Concentrate",
+      "brand": "Celluxe USA",
+      "category": "ampoule",
+      "image": "../product-images/IMG_2613.jpeg",
+      "keyIngredients": ["Peptides", "Honeysuckle", "Witch Hazel", "Chamomile"],
+      "benefit": "Dermis repair, restores skin elasticity",
+      "finished": false
+    },
+    {
+      "id": "illiyoon-gel",
+      "name": "Ceramide Ato Soothing Gel",
+      "brand": "ILLIYOON",
+      "category": "moisturizer",
+      "image": "../product-images/IMG_2612.jpeg",
+      "keyIngredients": ["Ceramide NP", "Squalane", "Betaine"],
+      "benefit": "Barrier repair, locks in actives",
+      "finished": false
+    },
+    {
+      "id": "abib-mask",
+      "name": "Collagen Gel Mask",
+      "brand": "Abib",
+      "category": "mask",
+      "image": "../product-images/IMG_2612.jpeg",
+      "keyIngredients": ["Vegan Collagen 10,005ppm", "Palmitoyl Tripeptide-5"],
+      "benefit": "Intensive hydration and firming boost",
+      "finished": false
+    }
+  ],
+  "routines": {
+    "morning": {
+      "name": "Morning Routine",
+      "icon": "☀️",
+      "steps": [
+        {
+          "order": 1,
+          "productId": "hada-labo-cleanser",
+          "reason": "Start with clean skin; low pH won't disrupt barrier; HA keeps skin hydrated during cleanse"
+        },
+        {
+          "order": 2,
+          "productId": "goodal-vitac",
+          "reason": "Vitamin C goes on bare skin for max absorption; antioxidants protect against daytime UV/pollution damage"
+        },
+        {
+          "order": 3,
+          "productId": "skin1004-centella",
+          "reason": "Lightweight watery texture layers over serum; soothes any Vitamin C sensitivity; anti-inflammatory"
+        },
+        {
+          "order": 4,
+          "productId": "illiyoon-gel",
+          "reason": "Seal everything in; ceramides strengthen barrier for day; lightweight for combo skin"
+        }
+      ]
+    },
+    "evening": {
+      "name": "Evening Routine",
+      "icon": "🌙",
+      "steps": [
+        {
+          "order": 1,
+          "productId": "hada-labo-cleanser",
+          "reason": "Remove day's buildup; HA prevents tight feeling after cleansing"
+        },
+        {
+          "order": 2,
+          "productId": "numbuzin-serum",
+          "reason": "Fermented ingredients on clean skin; Bifida/Galactomyces improve texture and prep skin for next steps"
+        },
+        {
+          "order": 3,
+          "productId": "manyo-bifida",
+          "reason": "Anti-aging powerhouse - Copper Tripeptide-1 + Argireline work overnight to boost collagen"
+        },
+        {
+          "order": 4,
+          "productId": "celluxe-peptide",
+          "reason": "Layer peptides for maximum anti-aging; different peptide complex complements ma:nyo"
+        },
+        {
+          "order": 5,
+          "productId": "illiyoon-gel",
+          "reason": "Occlusive layer seals in all the peptides for overnight repair"
+        }
+      ]
+    },
+    "weekly": {
+      "name": "Weekly Treatment",
+      "icon": "🎭",
+      "frequency": "1-2x per week",
+      "steps": [
+        {
+          "order": 1,
+          "productId": "abib-mask",
+          "reason": "Use after cleansing in PM, before serums. Vegan collagen + peptides give intensive firming boost"
+        }
+      ]
+    }
+  }
+}
